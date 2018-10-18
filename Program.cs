@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace LyricsGame
 {
@@ -9,7 +10,8 @@ namespace LyricsGame
             WebScraper scraper = new WebScraper();
             string lyrics = scraper.GetLyrics();
 
-            Console.WriteLine(lyrics);
+            GameController g = new GameController(lyrics);
+            g.StartGame();
         }
     }
 }
