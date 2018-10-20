@@ -102,12 +102,13 @@ namespace LyricsGame
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
     
-            // Use XQuery to locate the lyrics of the song
+            // Use XQuery to locate the lyrics of the song. Is this a bad way of doing it?
+            //
+            // ...Probably
             try
             {
                 HtmlNodeCollection htmlBody = htmlDoc.DocumentNode.SelectNodes("//comment()/..");
 
-                // Print the lyrics
 		        return htmlBody[8].InnerText;
             }
             catch

@@ -48,12 +48,16 @@ namespace LyricsGame
                     while (true)
                     {
                         int newIndex = rnd.Next(0, words.Length);
-                        if (!indexes.Contains(newIndex)) break;
+                        if (!indexes.Contains(newIndex))
+                        {
+                            indexes[i] = newIndex;
+                            break;
+                        }
                     }
                 }
 
                 // Once we have all of our unique indexes, we can start removing words
-                for (int i = 0; i < _toRemove; i++)
+                for (int i = 0; i < words.Length; i++)
                 {
                     // Go back to the start of the loop if we're not removing this word
                     if (!indexes.Contains(i))
@@ -62,7 +66,8 @@ namespace LyricsGame
                         continue;
                     }
 
-                    wordsToSolve.Add(words[i], false);
+                    if (!wordsToSolve.ContainsKey(words[i].ToLower()))
+                        wordsToSolve.Add(words[i].ToLower(), false);
                     UnsolvedLine += String.Concat(Enumerable.Repeat("_", words[i].Length)) + " ";
                 }
             }
@@ -71,7 +76,7 @@ namespace LyricsGame
                 foreach (string s in words)
                 {
                     // Add the word to the dictionary if we dont already have it in there
-                    if (!wordsToSolve.ContainsKey(s)) wordsToSolve.Add(s, false);
+                    if (!wordsToSolve.ContainsKey(s.ToLower())) wordsToSolve.Add(s.ToLower(), false);
                     UnsolvedLine += String.Concat(Enumerable.Repeat("_", s.Length)) + " ";
                 }
             }
