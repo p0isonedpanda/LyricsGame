@@ -35,7 +35,7 @@ namespace LyricsGame
             PrepareGame();
             foreach (Line s in gameLyrics)
             {
-                Console.WriteLine(s.UnsolvedLine);
+                Console.WriteLine(s.ProgressLine);
             }
         }
 
