@@ -50,7 +50,7 @@ namespace LyricsGame
                 {
                     foreach (string s in solvedWords)
                     {
-                        if (s == solved[i].ToLower()) indexes.Add(i);
+                        if (s == StripPuncuation(solved[i].ToLower())) indexes.Add(i);
                     }
                 }
 
@@ -113,7 +113,7 @@ namespace LyricsGame
                     }
 
                     if (!wordsToSolve.ContainsKey(words[i].ToLower()))
-                        wordsToSolve.Add(words[i].ToLower(), false);
+                        wordsToSolve.Add(StripPuncuation(words[i].ToLower()), false);
                     unsolvedLine += String.Concat(Enumerable.Repeat("_", words[i].Length)) + " ";
                 }
             }
@@ -122,7 +122,7 @@ namespace LyricsGame
                 foreach (string s in words)
                 {
                     // Add the word to the dictionary if we dont already have it in there
-                    if (!wordsToSolve.ContainsKey(s.ToLower())) wordsToSolve.Add(s.ToLower(), false);
+                    if (!wordsToSolve.ContainsKey(s.ToLower())) wordsToSolve.Add(StripPuncuation(s.ToLower()), false);
                     unsolvedLine += String.Concat(Enumerable.Repeat("_", s.Length)) + " ";
                 }
             }
@@ -135,13 +135,18 @@ namespace LyricsGame
         {
             try
             {
-                wordsToSolve[guess.ToLower()] = true;
+                wordsToSolve[StripPuncuation(guess.ToLower())] = true;
                 return true;
             }
             catch
             {
                 return false;
             }
+        }
+
+        private string StripPuncuation(string _line)
+        {
+            return new string(_line.Where(c => !char.IsPunctuation(c)).ToArray());
         }
     }
 }

@@ -33,10 +33,9 @@ namespace LyricsGame
         {
             SelectDifficulty();
             PrepareGame();
-            foreach (Line s in gameLyrics)
-            {
-                Console.WriteLine(s.ProgressLine);
-            }
+            
+            // Now we get to the fun stuff
+            Start();
         }
 
         private void SelectDifficulty()
@@ -88,6 +87,25 @@ namespace LyricsGame
                     }
                     break;
             }
+        }
+
+        private void Start()
+        {
+            foreach (Line l in gameLyrics)
+            {
+                while (true)
+                {
+                    // Show the progress of the line currently, then check if we've finished the line
+                    Console.WriteLine(l.ProgressLine);
+                    if (l.Solved) break; // Break out of loop if we're done with this line
+
+                    Console.Write("> ");
+                    string guess = Console.ReadLine();
+                    l.GuessWord(guess);
+                }
+            }
+
+            Console.WriteLine("Congratulations, you did it!");
         }
     }
 }
