@@ -1,17 +1,29 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Timers;
+using System.Threading;
 
 namespace LyricsGame
 {
     public class GameController
     {
+        // Timer stuffs
+        Thread timerThread;
+        Clock timerClock;
+        bool gameRunning;
+
         private string[] lyrics;
         private List<Line> gameLyrics;
         private Difficulty gameDifficulty;
 
         public GameController(string _lyrics)
         {
+            // Initialise all the timer stuff
+            timerThread = new Thread(new ThreadStart(RunTimer));
+            timerClock = new Clock();
+            gameRunning = true;
+
             lyrics = _lyrics.Split(new char[] { '\n', '\r' });
             lyrics = lyrics.Where(x => !string.IsNullOrEmpty(x)).ToArray(); // Remove blank lines
             lyrics = lyrics.Where(x => x[0] != '[').ToArray(); // Remove any tags that indicate different artists
@@ -91,6 +103,9 @@ namespace LyricsGame
 
         private void Start()
         {
+            // Start our timer
+            timerThread.Start();
+
             foreach (Line l in gameLyrics)
             {
                 while (true)
@@ -105,7 +120,17 @@ namespace LyricsGame
                 }
             }
 
-            Console.WriteLine("Congratulations, you did it!");
+            gameRunning = false;
+            Console.WriteLine("Congratulations, you did it! Your time was: {0}", timerClock.CurrentTime);
+        }
+
+        private void RunTimer()
+        {
+            while (gameRunning)
+            {
+                Thread.Sleep(1000);
+                timerClock.Tick();
+            }
         }
     }
 }
