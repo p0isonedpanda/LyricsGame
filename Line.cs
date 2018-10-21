@@ -131,16 +131,17 @@ namespace LyricsGame
             unsolvedLine = unsolvedLine.Substring(0, unsolvedLine.Length - 1);
         }
 
-        public bool GuessWord(string guess)
+        public void GuessWord(string guess)
         {
-            try
+            string[] guesses = StripPuncuation(guess.ToLower()).Split(" ");
+
+            // Check to see if any of the words in the guess match up to words in the line
+            foreach (string s in guesses)
             {
-                wordsToSolve[StripPuncuation(guess.ToLower())] = true;
-                return true;
-            }
-            catch
-            {
-                return false;
+                if (wordsToSolve.ContainsKey(s))
+                {
+                    wordsToSolve[s] = true;
+                }
             }
         }
 
